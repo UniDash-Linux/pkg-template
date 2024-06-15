@@ -1,12 +1,8 @@
-
 on:
   push:
     branches:
     - main
     - release/*
-  pull_request:
-    branches:
-    - main
 
 jobs:
   update_flake:
@@ -18,7 +14,15 @@ jobs:
         uses: DeterminateSystems/flake-checker-action@v5
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@v4
-      - name: Update Nix Flake Lock
-        uses: DeterminateSystems/update-flake-lock@v21
-      - name: Build Nix package
-        run: nix build
+      - name: Auto Release
+        run: |
+          cd ./src/
+          NAME=$(echo "${{ github.repository }}" | cut -d "/" -f 1)
+          tar -czvf ${NAME}.tar.gz *
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ github.token }}"
+          automatic_release_tag: "latest"
+          prerelease: false
+          files: |
+            ${NAME}.tar.gz
