@@ -1,0 +1,29 @@
+
+on:
+  push:
+    branches:
+    - main
+    - release/*
+  pull_request:
+    branches:
+    - main
+
+jobs:
+  update_flake:
+    name: deploy to staging
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Update Nix Flake Lock
+        uses: DeterminateSystems/update-flake-lock@v21
+        
+      - name: Nix Flake Checker
+        uses: DeterminateSystems/flake-checker-action@v7
+        with:
+          refs: nixos-24.05
+          
+      - name: Auto Versioning
+        uses: Soumeh-zz/Auto-Versioning@v2.0
+          
+      - name: Auto Release
+        uses: CupOfTea696/gh-action-auto-release@v1.0.2
+          
