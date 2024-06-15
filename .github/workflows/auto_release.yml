@@ -7,6 +7,7 @@ on:
 jobs:
   update_flake:
     name: deploy to staging
+    id: date
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
@@ -18,11 +19,16 @@ jobs:
         run: |
           cd ./src/
           NAME=$(echo "${{ github.repository }}" | cut -d "/" -f 1)
-          tar -czvf ${NAME}.tar.gz *
+          tar -czvf ${NAME}.tar.gz *- name: Get current date
+      - name: Generate Release version from date
+        run: |
+          TAG_NAME="release-$(date +'%Y%m%d-%H%M%S')"
+          echo "TAG_NAME=$TAG_NAME" >> $GITHUB_ENV
+          echo "Tag name will be: $TAG_NAME"
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ github.token }}"
-          automatic_release_tag: "latest"
+          automatic_release_tag: env.TAG_NAME
           prerelease: false
           files: |
             ${NAME}.tar.gz
