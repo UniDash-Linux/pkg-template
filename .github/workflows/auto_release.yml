@@ -22,8 +22,9 @@ jobs:
         id: generate_tar
         run: |
           cd ./src/
-          NAME=$(basename "${{ github.repository }}")
-          tar -czvf ../${NAME}.tar.gz .
+          FILE_NAME="$(basename "${{ github.repository }}").tar.gz"
+          echo "FILE_NAME=$FILE_NAME" >> $GITHUB_ENV
+          tar -czvf ${FILE_NAME} *
 
       - name: Generate Release version from date
         id: date
@@ -37,6 +38,6 @@ jobs:
         with:
           repo_token: "${{ github.token }}"
           automatic_release_tag: ${{ env.TAG_NAME }}
-          prerelease: false
+          prerelease: true
           files: |
-            ${{ steps.generate_tar.outputs.tar_path }}
+            ./src/${{ env.FILE_NAME }}
