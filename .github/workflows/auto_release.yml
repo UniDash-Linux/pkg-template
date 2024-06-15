@@ -3,6 +3,7 @@ on:
     branches:
     - main
     - release/*
+    - setup-auto-release
 
 jobs:
   update_flake:
