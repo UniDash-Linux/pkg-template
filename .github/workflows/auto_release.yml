@@ -18,11 +18,8 @@ jobs:
         uses: DeterminateSystems/flake-checker-action@v5
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@v4
+      - name: Update Nix Flake Lock
+        uses: DeterminateSystems/update-flake-lock@v21
       - name: Build Nix package
         run: nix build
-          
-      - name: Auto Versioning
-        uses: Soumeh-zz/Auto-Versioning@v2.0
-      - name: Auto Release
-        uses: CupOfTea696/gh-action-auto-release@v1.0.2
           
