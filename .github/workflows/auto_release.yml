@@ -22,4 +22,3 @@ jobs:
         uses: DeterminateSystems/update-flake-lock@v21
       - name: Build Nix package
         run: nix build
-          
