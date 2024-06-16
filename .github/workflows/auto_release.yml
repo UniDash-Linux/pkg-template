@@ -58,9 +58,10 @@ jobs:
         run: |
           git config --global user.email "${{ github.event.pusher.email }}"
           git config --global user.name "${{ github.event.pusher.name }}"
-          git config --global credential.helper cache
 
-          git clone https://${{ secrets.RevoluNixPKGS_TOKEN }}@github.com/RevoluNix/revolunixpkgs
+          URL="https://${{ secrets.RevoluNixPKGS_TOKEN }}@github.com/RevoluNix/revolunixpkgs"
+          git clone $URL
+          git remote set-url origin $URL
           rm -rf revolunixpkgs/pkgs/${{ env.PKG_NAME }}
           mkdir -p revolunixpkgs/pkgs/${{ env.PKG_NAME }}
           cp package.nix revolunixpkgs/pkgs/${{ env.PKG_NAME }}/package.nix
