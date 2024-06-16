@@ -5,22 +5,7 @@ on:
     - setup-auto-release
 
 jobs:
-  update_flake:
-    name: update and check flake.lock
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Install Nix
-        uses: DeterminateSystems/nix-installer-action@v4
-
-      - name: Update Nix Flake Lock
-        if: ${{ github.event_name != 'pull_request' }}
-        uses: DeterminateSystems/update-flake-lock@v21
-
   auto_ralease:
-    needs: update_flake
     name: auto create and push release
     runs-on: ubuntu-22.04
     steps:
@@ -84,4 +69,4 @@ jobs:
           cd revolunixpkgs
           git add .
           git commit -m "feat: Update/Upload ${{ env.PKG_NAME }}"
-          gh repo push
+          git push
