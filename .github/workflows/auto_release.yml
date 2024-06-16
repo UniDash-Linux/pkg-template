@@ -62,10 +62,14 @@ jobs:
       - name: Update RevoluNixPKGS
         id: update_pkgs
         run: |
+          git config --global user.email "${{ github.event.pusher.email }}"
+          git config --global user.name "${{ github.event.pusher.name }}"
+          
           URL="https://github.com/${{ github.repository }}/releases/download/${{ env.TAG_NAME }}/package.nix"
           rm -rf ./pkgs/${{ env.PKG_NAME }}
           mkdir -p ./pkgs/${{ env.PKG_NAME }}
           wget -O ./pkgs/${{ env.PKG_NAME }}/package.nix $URL
+          
           git add .
           git commit -m "feat: Update/Upload ${{ env.PKG_NAME }}"
           
