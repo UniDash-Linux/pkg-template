@@ -54,6 +54,7 @@ jobs:
           SRC="src = fetchurl {\n    url = \"${URL}\";\n    sha256 = \"${{ env.FILE_HASH }}\";\n  }"
           sed -i "s/src = .\/src/${SRC}/g" ./package.nix
           sed -i "s/version = \".*\";/version = \"${{ env.TAG_NAME }}\";/g" ./package.nix
+          sed -i "s/`head -1 ./package.nix | tail -1 `/{\n  fetchurl,/" ./package.nix
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
