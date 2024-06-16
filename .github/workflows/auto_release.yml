@@ -7,20 +7,29 @@ on:
 
 jobs:
   update_flake:
-    name: deploy to staging
+    name: update and check flake.lock
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@v4
 
       - name: Update Nix Flake Lock
+        if: ${{ github.event_name != 'pull_request' }}
         uses: DeterminateSystems/update-flake-lock@v21
 
       - name: Check Nix flake inputs
         uses: DeterminateSystems/flake-checker-action@v5
 
+  auto_ralease:
+    name: deploy to staging
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
       - name: Generate tar.gz from src
         id: generate_tar
         run: |
