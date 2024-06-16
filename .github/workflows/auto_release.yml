@@ -52,7 +52,8 @@ jobs:
               | sed "s/\//\\\//g"
           )
           SRC="src = fetchurl {\n    url = \"${URL}\";\n    sha256 = \"${{ env.FILE_HASH }}\";\n  }"
-          sed -i "s/src = .\/src/${SRC}/g" ./package.nix
+          echo "SRC=$SRC" >> $GITHUB_ENV
+          sed -i "s/src = .\/src/${{ env.SRC }}/g" ./package.nix
           sed -i "s/version = \".*\";/version = \"${{ env.TAG_NAME }}\";/g" ./package.nix
 
       - name: Create Release
