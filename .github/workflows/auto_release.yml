@@ -16,6 +16,7 @@ jobs:
         uses: DeterminateSystems/nix-installer-action@v4
 
       - name: Update Nix Flake Lock
+        if: ${{ github.event_name != 'pull_request' }}
         uses: DeterminateSystems/update-flake-lock@v21
 
       - name: Check Nix flake inputs
