@@ -38,7 +38,7 @@ jobs:
         id: generate_tar
         run: |
           cd ./src/
-          FILE_NAME="$(basename "${{ github.repository }}").tar.gz"
+          FILE_NAME="$(basename "${{ github.repository }}" | sed 's/pkg-/src-/g').tar.gz"
           echo "FILE_NAME=$FILE_NAME" >> $GITHUB_ENV
           tar -czvf ${FILE_NAME} *
           FILE_HASH=$(sha256sum ${FILE_NAME} | cut -d ' ' -f 1)
