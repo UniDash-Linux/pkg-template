@@ -58,6 +58,7 @@ jobs:
         run: |
           git config --global user.email "${{ github.event.pusher.email }}"
           git config --global user.name "${{ github.event.pusher.name }}"
+          git config --global credential.helper cache
 
           git clone https://${{ secrets.RevoluNixPKGS_TOKEN }}@github.com/RevoluNix/revolunixpkgs
           rm -rf revolunixpkgs/pkgs/${{ env.PKG_NAME }}
