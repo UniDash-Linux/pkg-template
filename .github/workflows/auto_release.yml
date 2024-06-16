@@ -21,7 +21,7 @@ jobs:
 
   auto_ralease:
     needs: update_flake
-    name: deploy to staging
+    name: auto create and push release
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository
@@ -38,7 +38,9 @@ jobs:
         id: generate_tar
         run: |
           cd ./src/
-          FILE_NAME="$(basename "${{ github.repository }}" | sed 's/pkg-/src-/g').tar.gz"
+          PKG_NAME="$(basename "${{ github.repository }}" | sed 's/pkg-//g')"
+          FILE_NAME="src-${PKG_NAME}.tar.gz"
+          echo "PKG_NAME=$PKG_NAME" >> $GITHUB_ENV
           echo "FILE_NAME=$FILE_NAME" >> $GITHUB_ENV
           tar -czvf ${FILE_NAME} *
           FILE_HASH=$(sha256sum ${FILE_NAME} | cut -d ' ' -f 1)
@@ -65,3 +67,16 @@ jobs:
           files: |
             ./src/${{ env.FILE_NAME }}
             ./package.nix
+
+      - name: Update RevoluNixPKGS
+        id: update_pkgs
+        run: |          
+          gh repo clone RevoluNix/revolunixpkgs
+          rm -rf revolunixpkgs/pkgs/${{ env.PKG_NAME }}
+          mkdir -p revolunixpkgs/pkgs/${{ env.PKG_NAME }}
+          cp package.nix revolunixpkgs/pkgs/${{ env.PKG_NAME }}/package.nix
+
+          cd revolunixpkgs
+          git add .
+          git commit -m "feat: Update/Upload ${{ env.PKG_NAME }}"
+          gh repo push
