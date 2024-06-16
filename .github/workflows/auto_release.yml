@@ -2,7 +2,6 @@ on:
   push:
     branches:
     - main
-    - setup-auto-release
 
 jobs:
   auto_ralease:
@@ -71,7 +70,7 @@ jobs:
           wget -O ./pkgs/${{ env.PKG_NAME }}/package.nix $URL
           
           git add .
-          git commit -m "feat: Update/Upload ${{ env.PKG_NAME }}"
+          git commit -m "feat: Update/Upload ${{ env.PKG_NAME }} package"
           
       - name: Push RevoluNixPKGS changes
         uses: ad-m/github-push-action@master
