@@ -60,7 +60,7 @@ jobs:
         run: |
           git config --global user.email "${{ github.event.pusher.email }}"
           git config --global user.name "${{ github.event.pusher.name }}"
-          git config --global credential.helper cache
+          git config --global credential.helper '!f() { sleep 1; echo "username=git token=<TOKEN>"; }; f'
 
           URL="https://${{ github.token }}@github.com/RevoluNix/revolunixpkgs"
           git clone $URL
