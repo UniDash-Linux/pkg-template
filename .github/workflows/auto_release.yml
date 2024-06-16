@@ -30,7 +30,7 @@ jobs:
       - name: Generate Release version from date
         id: date
         run: |
-          TAG_NAME="build-$(date +'%Y%m%d-%H%M%S')"
+          TAG_NAME="release-$(date +'%Y.%m.%d-%H.%M.%S')"
           echo "TAG_NAME=$TAG_NAME" >> $GITHUB_ENV
           echo "Tag name will be: $TAG_NAME"
       
