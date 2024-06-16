@@ -60,8 +60,9 @@ jobs:
         run: |
           git config --global user.email "${{ github.event.pusher.email }}"
           git config --global user.name "${{ github.event.pusher.name }}"
-          
-          gh repo clone RevoluNix/revolunixpkgs
+
+          git clone \
+            https://${{ github.event.pusher.name }}:${{ github.token }}@github.com/RevoluNix/revolunixpkgs
           rm -rf revolunixpkgs/pkgs/${{ env.PKG_NAME }}
           mkdir -p revolunixpkgs/pkgs/${{ env.PKG_NAME }}
           cp package.nix revolunixpkgs/pkgs/${{ env.PKG_NAME }}/package.nix
