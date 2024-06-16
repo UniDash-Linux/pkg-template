@@ -70,6 +70,8 @@ jobs:
 
       - name: Update RevoluNixPKGS
         id: update_pkgs
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |          
           gh repo clone RevoluNix/revolunixpkgs
           rm -rf revolunixpkgs/pkgs/${{ env.PKG_NAME }}
