@@ -1,8 +1,7 @@
 on:
   push:
     branches:
-    - main
-    - release/*
+    - release
     - setup-auto-release
 
 jobs:
@@ -24,6 +23,7 @@ jobs:
         uses: DeterminateSystems/flake-checker-action@v5
 
   auto_ralease:
+    needs: update_flake
     name: deploy to staging
     runs-on: ubuntu-22.04
     steps:
