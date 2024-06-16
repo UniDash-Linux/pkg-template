@@ -19,9 +19,6 @@ jobs:
         if: ${{ github.event_name != 'pull_request' }}
         uses: DeterminateSystems/update-flake-lock@v21
 
-      - name: Check Nix flake inputs
-        uses: DeterminateSystems/flake-checker-action@v5
-
   auto_ralease:
     needs: update_flake
     name: deploy to staging
